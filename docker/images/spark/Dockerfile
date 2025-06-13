@@ -13,6 +13,12 @@ RUN pip install --no-cache-dir \
 
 # (tuỳ chọn) Copy job mẫu để test
 # COPY ../../spark_jobs /opt/spark_jobs
+RUN echo "sparkuser:x:1001:0:Spark User:/opt/bitnami/spark:/bin/bash" >> /etc/passwd
 
+RUN apt-get update && \
+    apt-get install -y nano vim less && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+    
 USER 1001   
 # quay lại non-root (Bitnami convention)
