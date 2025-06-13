@@ -1,0 +1,6 @@
+services:
+  spark:
+    build:
+      context: ../images/spark
+      dockerfile: Dockerfile
+    image: lakehouse/spark:3.5.0

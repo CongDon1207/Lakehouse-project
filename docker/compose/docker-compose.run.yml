@@ -31,6 +31,17 @@ services:
     networks:
       - lakehouse-net
     
+  spark:
+    image: lakehouse/spark:3.5.0
+    container_name: spark
+    depends_on:
+      - minio
+    networks:
+      - lakehouse-net
+    ports:
+      - "4040:4040"
+    volumes:
+      - ../../spark_jobs:/opt/spark_jobs  
 
 volumes:
   minio-data:
