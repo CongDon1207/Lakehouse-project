@@ -50,15 +50,21 @@ services:
       - MYSQL_DATABASE=metastore
       - MYSQL_USER=hive
       - MYSQL_PASSWORD=hive123
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "hive", "-phive123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - lakehouse-net
-  
+
   hive-metastore:
     image: lakehouse/hive-metastore:4.0.0
     environment:
       - SERVICE_NAME=metastore
     depends_on:
-      - metastore-db
+      metastore-db:
+        condition: service_healthy
     ports:
       - "9083:9083"
     networks:
