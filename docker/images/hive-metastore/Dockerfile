@@ -13,5 +13,10 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Copy entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Không cần SERVICE_NAME nữa vì entrypoint sẽ start metastore
 USER 1000
-ENV SERVICE_NAME=metastore
+ENTRYPOINT ["/entrypoint.sh"]
