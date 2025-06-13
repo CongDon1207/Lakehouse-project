@@ -4,3 +4,9 @@ services:
       context: ../images/spark
       dockerfile: Dockerfile
     image: lakehouse/spark:3.5.0
+  
+  hive-metastore:
+    build:
+      context: ../images/hive-metastore
+      dockerfile: Dockerfile
+    image: lakehouse/hive-metastore:4.0.0
