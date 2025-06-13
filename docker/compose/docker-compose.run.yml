@@ -42,6 +42,35 @@ services:
       - "4040:4040"
     volumes:
       - ../../spark_jobs:/opt/bitnami/spark/spark_jobs  
+  
+  metastore-db:
+    container_name: metastore-db
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=metastore
+      - MYSQL_USER=hive
+      - MYSQL_PASSWORD=hive123
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "hive", "-phive123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lakehouse-net
+
+  hive-metastore:
+    container_name: hive-metastore
+    image: lakehouse/hive-metastore:4.0.0
+    environment:
+      - SERVICE_NAME=metastore
+    depends_on:
+      metastore-db:
+        condition: service_healthy
+    ports:
+      - "9083:9083"
+    networks:
+      - lakehouse-net
 
 volumes:
   minio-data:
