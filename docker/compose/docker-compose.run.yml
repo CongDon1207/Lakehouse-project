@@ -71,6 +71,17 @@ services:
       - "9083:9083"
     networks:
       - lakehouse-net
+  
+  trino:
+    image: lakehouse/trino:443
+    container_name: trino
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../../trino/catalog:/etc/trino/catalog     # Mount catalog config
+    depends_on:
+      - hive-metastore
+      - minio
 
 volumes:
   minio-data:
