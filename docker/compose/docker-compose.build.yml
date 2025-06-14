@@ -10,3 +10,9 @@ services:
       context: ../images/hive-metastore
       dockerfile: Dockerfile
     image: lakehouse/hive-metastore:4.0.0
+  
+  trino:
+    build:
+      context: ../images/trino
+      dockerfile: Dockerfile
+    image: lakehouse/trino:468
