@@ -100,7 +100,7 @@ services:
       - ADMIN_EMAIL=admin@localhost
       - SUPERSET_SECRET_KEY=thisisaverysecretkey
     volumes:
-      - ../../superset/pythonpath:/app/pythonpath
+      #- ../../superset/pythonpath:/app/pythonpath
       - ../../superset/superset_home:/app/superset_home
     networks:
       - lakehouse-net

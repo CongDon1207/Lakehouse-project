@@ -1,10 +1,9 @@
 #!/bin/bash
 set -e
 
-# 1. Khởi tạo/migrate DB (idempotent)
+# 1. Khởi tạo DB, tạo user, init metadata
 superset db upgrade
 
-# 2. Tạo admin user nếu chưa có
 superset fab create-admin \
   --username "${ADMIN_USERNAME:-admin}" \
   --firstname "${ADMIN_FIRSTNAME:-admin}" \
@@ -12,8 +11,12 @@ superset fab create-admin \
   --email "${ADMIN_EMAIL:-admin@localhost}" \
   --password "${ADMIN_PASSWORD:-admin123}" || true
 
-# 3. Init các metadata default (roles, permissions…)
 superset init
 
-# 4. Khởi động Superset webserver
+# 2. Thêm kết nối Trino (dùng đúng command & flag)
+superset set-database-uri \
+  --database-name trino_conn \
+  --uri "trino://trino@trino:8080/hive/default"
+
+# 3. Start webserver
 exec superset run -h 0.0.0.0 -p 8088
