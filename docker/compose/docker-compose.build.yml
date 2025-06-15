@@ -28,3 +28,9 @@ services:
       context: ../images/kafka
       dockerfile: Dockerfile
     image: lakehouse/kafka:3.9.0
+
+  airflow:
+    build:
+      context: ../images/airflow
+      dockerfile: Dockerfile
+    image: lakehouse/airflow:3.0.1

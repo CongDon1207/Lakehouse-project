@@ -140,6 +140,24 @@ services:
     networks:
       - lakehouse-net
 
+  airflow:
+    image: lakehouse/airflow:3.0.1
+    container_name: airflow
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
+      - AIRFLOW__CORE__FERNET_KEY=supersecret 
+    volumes:
+      - ../../airflow/dags:/opt/airflow/dags
+      - ../../airflow/plugins:/opt/airflow/plugins
+      - ../../airflow/logs:/opt/airflow/logs
+    ports:
+      - "8082:8080"
+    depends_on:
+      - kafka
+    networks:
+      - lakehouse-net
+    command: standalone
 
 volumes:
   minio-data:
