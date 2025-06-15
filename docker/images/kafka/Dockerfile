@@ -9,4 +9,8 @@ RUN install_packages curl jq netcat-openbsd
 COPY create-topic.sh /opt/bitnami/kafka/create-topic.sh
 RUN chmod +x /opt/bitnami/kafka/create-topic.sh
 
+RUN echo "kafkauser:x:1001:0:Kafka User:/opt/bitnami/kafka:/bin/bash" >> /etc/passwd
+WORKDIR /opt/bitnami/kafka
+
+
 USER 1001
