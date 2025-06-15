@@ -140,27 +140,69 @@ services:
     networks:
       - lakehouse-net
 
-  airflow:
-    image: lakehouse/airflow:3.0.1
-    container_name: airflow
+  airflow-db:
+    image: postgres:15
+    container_name: airflow-db
     environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
-      - AIRFLOW__CORE__FERNET_KEY=supersecret 
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    volumes:
+      - airflow-db-data:/var/lib/postgresql/data
+    networks:
+      - lakehouse-net
+
+  airflow-webserver:
+    image: lakehouse/airflow:3.0.1
+    container_name: airflow-webserver
+    depends_on:
+      - airflow-db
+    environment:
+      AIRFLOW__CORE__EXECUTOR: "LocalExecutor"
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: "postgresql+psycopg2://airflow:airflow@airflow-db:5432/airflow"
+      AIRFLOW__CORE__FERNET_KEY: "supersecret"
+      AIRFLOW__CORE__AUTH_MANAGER: "airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager"
+      ADMIN_USERNAME: "admin"
+      ADMIN_PASSWORD: "admin123"
+      ADMIN_FIRSTNAME: "Admin"
+      ADMIN_LASTNAME: "User"
+      ADMIN_EMAIL: "admin@example.com"
     volumes:
       - ../../airflow/dags:/opt/airflow/dags
       - ../../airflow/plugins:/opt/airflow/plugins
       - ../../airflow/logs:/opt/airflow/logs
     ports:
       - "8082:8080"
-    depends_on:
-      - kafka
     networks:
       - lakehouse-net
-    command: standalone
+    command: api-server
+
+  airflow-scheduler:
+    image: lakehouse/airflow:3.0.1
+    container_name: airflow-scheduler
+    depends_on:
+      - airflow-db
+    environment:
+      AIRFLOW__CORE__EXECUTOR: "LocalExecutor"
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: "postgresql+psycopg2://airflow:airflow@airflow-db:5432/airflow"
+      AIRFLOW__CORE__FERNET_KEY: "supersecret"
+      AIRFLOW__CORE__AUTH_MANAGER: "airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager"
+      ADMIN_USERNAME: "admin"
+      ADMIN_PASSWORD: "admin123"
+      ADMIN_FIRSTNAME: "Admin"
+      ADMIN_LASTNAME: "User"
+      ADMIN_EMAIL: "admin@example.com"
+    volumes:
+      - ../../airflow/dags:/opt/airflow/dags
+      - ../../airflow/plugins:/opt/airflow/plugins
+      - ../../airflow/logs:/opt/airflow/logs
+    networks:
+      - lakehouse-net
+    command: scheduler
 
 volumes:
   minio-data:
+  airflow-db-data:
 
 networks:
   lakehouse-net:

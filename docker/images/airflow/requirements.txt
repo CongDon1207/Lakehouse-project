@@ -12,6 +12,9 @@ apache-airflow-providers-trino
 # Airflow provider cho Spark (submit job tới Spark cluster)
 apache-airflow-providers-apache-spark
 
+# FAB Auth provider (cho phép tạo user qua CLI)
+apache-airflow-providers-fab
+
 # Các thư viện phổ biến thường dùng trong DAG
 pandas
 pyarrow
