@@ -27,7 +27,7 @@ services:
       minio:
         condition: service_healthy  # Chờ MinIO sẵn sàng trước
     volumes:
-      - ../../scripts:/scripts          
+      - ./services/minio:/scripts         
     networks:
       - lakehouse-net
     
@@ -41,7 +41,7 @@ services:
     ports:
       - "4040:4040"
     volumes:
-      - ../../spark_jobs:/opt/bitnami/spark/spark_jobs  
+      - ./services/spark/jobs:/opt/bitnami/spark/spark_jobs 
   
   metastore-db:
     container_name: metastore-db
@@ -78,11 +78,11 @@ services:
     ports:
       - "8081:8080"
     volumes:
-      - ../../trino/catalog:/etc/trino/catalog     # Mount catalog config
-      - ../../trino/config/config.properties:/etc/trino/config.properties
-      - ../../trino/config/jvm.config:/etc/trino/jvm.config
-      - ../../trino/config/node.properties:/etc/trino/node.properties
-      - ../../trino/config/log.properties:/etc/trino/log.properties
+      - ./services/trino/catalog:/etc/trino/catalog
+      - ./services/trino/conf/config.properties:/etc/trino/config.properties
+      - ./services/trino/conf/jvm.config:/etc/trino/jvm.config
+      - ./services/trino/conf/node.properties:/etc/trino/node.properties
+      - ./services/trino/conf/log.properties:/etc/trino/log.properties
     depends_on:
       - hive-metastore
       - minio
@@ -100,8 +100,8 @@ services:
       - ADMIN_EMAIL=admin@localhost
       - SUPERSET_SECRET_KEY=thisisaverysecretkey
     volumes:
-      - ../../superset/pythonpath:/app/pythonpath
-      - ../../superset/superset_home:/app/superset_home
+      - ./services/superset/pythonpath:/app/pythonpath
+      - ./services/superset/superset_home:/app/superset_home
     networks:
       - lakehouse-net
     depends_on:
@@ -168,9 +168,9 @@ services:
       ADMIN_LASTNAME: "User"
       ADMIN_EMAIL: "admin@example.com"
     volumes:
-      - ../../airflow/dags:/opt/airflow/dags
-      - ../../airflow/plugins:/opt/airflow/plugins
-      - ../../airflow/logs:/opt/airflow/logs
+      - ./services/airflow/dags:/opt/airflow/dags
+      - ./services/airflow/plugins:/opt/airflow/plugins
+      - ./services/airflow/logs:/opt/airflow/logs
     ports:
       - "8082:8080"
     networks:
@@ -193,9 +193,9 @@ services:
       ADMIN_LASTNAME: "User"
       ADMIN_EMAIL: "admin@example.com"
     volumes:
-      - ../../airflow/dags:/opt/airflow/dags
-      - ../../airflow/plugins:/opt/airflow/plugins
-      - ../../airflow/logs:/opt/airflow/logs
+      - ./services/airflow/dags:/opt/airflow/dags
+      - ./services/airflow/plugins:/opt/airflow/plugins
+      - ./services/airflow/logs:/opt/airflow/logs
     networks:
       - lakehouse-net
     command: scheduler
