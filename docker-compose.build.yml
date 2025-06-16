@@ -1,36 +1,36 @@
 services:
   spark:
     build:
-      context: ../images/spark
+      context: ./services/spark          # <─ NEW
       dockerfile: Dockerfile
     image: lakehouse/spark:3.5.0
-  
+
   hive-metastore:
     build:
-      context: ../images/hive-metastore
+      context: ./services/hive-metastore # <─ NEW
       dockerfile: Dockerfile
     image: lakehouse/hive-metastore:4.0.0
-  
+
   trino:
     build:
-      context: ../images/trino
+      context: ./services/trino          # <─ NEW
       dockerfile: Dockerfile
     image: lakehouse/trino:468
 
   superset:
     build:
-      context: ../images/superset
+      context: ./services/superset       # <─ NEW
       dockerfile: Dockerfile
     image: lakehouse/superset:4.1.2
 
   kafka:
     build:
-      context: ../images/kafka
+      context: ./services/kafka          # <─ NEW
       dockerfile: Dockerfile
     image: lakehouse/kafka:3.9.0
 
   airflow:
     build:
-      context: ../images/airflow
+      context: ./services/airflow        # <─ NEW
       dockerfile: Dockerfile
     image: lakehouse/airflow:3.0.1

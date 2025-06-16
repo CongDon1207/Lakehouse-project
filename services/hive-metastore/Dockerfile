@@ -3,7 +3,7 @@ FROM apache/hive:4.0.0
 USER root
 
 # Copy file hive-site.xml vào image (bạn tự tạo file này ở cùng Dockerfile)
-COPY hive-site.xml /opt/hive/conf/hive-site.xml
+COPY conf/hive-site.xml /opt/hive/conf/hive-site.xml
 
 # Cài wget (nếu ảnh gốc chưa có) và tải driver MySQL
 RUN apt-get update && \

@@ -4,7 +4,7 @@ FROM bitnami/spark:3.5.0
 USER root
 
 # Copy cấu hình Spark mặc định (S3a → MinIO)
-COPY spark-defaults.conf /opt/bitnami/spark/conf/
+COPY conf/spark-defaults.conf /opt/bitnami/spark/conf/
 
 # Cài thêm Python libs cho job
 RUN pip install --no-cache-dir \
