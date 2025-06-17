@@ -11,7 +11,9 @@ minio_client = Minio(
 
 bucket_name = "footware"
 object_name = "bronze/FootWare_Wholesale_Sales_Dataset.csv"
-local_file = "data/FootWare_Sales_Dataset/FootWare_Wholesale_Sales_Dataset.csv"
+local_file = "../../../data/FootWare_Sales_Dataset/FootWare_Wholesale_Sales_Dataset.csv"
+
+
 
 # Tạo bucket nếu chưa có
 found = minio_client.bucket_exists(bucket_name)

@@ -127,16 +127,27 @@ services:
     image: lakehouse/kafka:3.9.0
     container_name: kafka
     environment:
+      # ZooKeeper
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_BROKER_ID=1
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://0.0.0.0:9092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+
+      # Lắng nghe hai interface
+      - KAFKA_CFG_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:9094
+
+      # Thông báo cho clients hai địa chỉ
+      - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL://localhost:9094
+
+      # Cả hai đều PLAINTEXT
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+
+      # Dùng INTERNAL làm inter-broker
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
     depends_on:
       zookeeper:
         condition: service_healthy
     ports:
-      - "9092:9092"
+      - "9094:9094"
     networks:
       - lakehouse-net
 
