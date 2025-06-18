@@ -33,4 +33,4 @@ services:
     build:
       context: ./services/airflow        # <─ NEW
       dockerfile: Dockerfile
-    image: lakehouse/airflow:3.0.1
+    image: lakehouse/airflow:2.9.2

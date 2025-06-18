@@ -164,20 +164,22 @@ services:
       - lakehouse-net
 
   airflow-webserver:
-    image: lakehouse/airflow:3.0.1
+    image: lakehouse/airflow:2.9.2
     container_name: airflow-webserver
     depends_on:
       - airflow-db
     environment:
-      AIRFLOW__CORE__EXECUTOR: "LocalExecutor"
-      AIRFLOW__CORE__SQL_ALCHEMY_CONN: "postgresql+psycopg2://airflow:airflow@airflow-db:5432/airflow"
-      AIRFLOW__CORE__FERNET_KEY: "supersecret"
-      AIRFLOW__CORE__AUTH_MANAGER: "airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager"
-      ADMIN_USERNAME: "admin"
-      ADMIN_PASSWORD: "admin123"
-      ADMIN_FIRSTNAME: "Admin"
-      ADMIN_LASTNAME: "User"
-      ADMIN_EMAIL: "admin@example.com"
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-db:5432/airflow
+      AIRFLOW__CORE__FERNET_KEY: supersecret
+      # --- tự upgrade DB & tạo admin ---
+      _AIRFLOW_DB_UPGRADE: "true"
+      _AIRFLOW_WWW_USER_CREATE: "true"
+      _AIRFLOW_WWW_USER_USERNAME: admin
+      _AIRFLOW_WWW_USER_PASSWORD: admin123
+      _AIRFLOW_WWW_USER_FIRSTNAME: Admin
+      _AIRFLOW_WWW_USER_LASTNAME: User
+      _AIRFLOW_WWW_USER_EMAIL: admin@example.com
     volumes:
       - ./services/airflow/dags:/opt/airflow/dags
       - ./services/airflow/plugins:/opt/airflow/plugins
@@ -186,23 +188,18 @@ services:
       - "8082:8080"
     networks:
       - lakehouse-net
-    command: api-server
+    command: webserver
 
   airflow-scheduler:
-    image: lakehouse/airflow:3.0.1
+    image: lakehouse/airflow:2.9.2
     container_name: airflow-scheduler
     depends_on:
       - airflow-db
     environment:
-      AIRFLOW__CORE__EXECUTOR: "LocalExecutor"
-      AIRFLOW__CORE__SQL_ALCHEMY_CONN: "postgresql+psycopg2://airflow:airflow@airflow-db:5432/airflow"
-      AIRFLOW__CORE__FERNET_KEY: "supersecret"
-      AIRFLOW__CORE__AUTH_MANAGER: "airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager"
-      ADMIN_USERNAME: "admin"
-      ADMIN_PASSWORD: "admin123"
-      ADMIN_FIRSTNAME: "Admin"
-      ADMIN_LASTNAME: "User"
-      ADMIN_EMAIL: "admin@example.com"
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-db:5432/airflow
+      AIRFLOW__CORE__FERNET_KEY: supersecret
+      _AIRFLOW_DB_UPGRADE: "true"    # để scheduler cũng tự đảm bảo DB khớp
     volumes:
       - ./services/airflow/dags:/opt/airflow/dags
       - ./services/airflow/plugins:/opt/airflow/plugins
