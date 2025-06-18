@@ -1,0 +1,39 @@
+[2025-06-18T14:04:14.813+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-06-18T14:04:14.845+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: lakehouse_ingest_pipeline.spark_streaming_bronze manual__2025-06-18T14:04:10.531196+00:00 [queued]>
+[2025-06-18T14:04:14.854+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: lakehouse_ingest_pipeline.spark_streaming_bronze manual__2025-06-18T14:04:10.531196+00:00 [queued]>
+[2025-06-18T14:04:14.855+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 2
+[2025-06-18T14:04:14.870+0000] {taskinstance.py:2330} INFO - Executing <Task(SparkSubmitOperator): spark_streaming_bronze> on 2025-06-18 14:04:10.531196+00:00
+[2025-06-18T14:04:14.879+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61 DeprecationWarning: This process (pid=356) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-06-18T14:04:14.879+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'lakehouse_ingest_pipeline', 'spark_streaming_bronze', 'manual__2025-06-18T14:04:10.531196+00:00', '--job-id', '15', '--raw', '--subdir', 'DAGS_FOLDER/lakehouse_ingest_pipeline.py', '--cfg-path', '/tmp/tmpsjswe3ji']
+[2025-06-18T14:04:14.881+0000] {standard_task_runner.py:63} INFO - Started process 357 to run task
+[2025-06-18T14:04:14.882+0000] {standard_task_runner.py:91} INFO - Job 15: Subtask spark_streaming_bronze
+[2025-06-18T14:04:14.902+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/settings.py:195 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-06-18T14:04:14.943+0000] {task_command.py:426} INFO - Running <TaskInstance: lakehouse_ingest_pipeline.spark_streaming_bronze manual__2025-06-18T14:04:10.531196+00:00 [running]> on host f39ffebced54
+[2025-06-18T14:04:15.026+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='lakehouse_ingest_pipeline' AIRFLOW_CTX_TASK_ID='spark_streaming_bronze' AIRFLOW_CTX_EXECUTION_DATE='2025-06-18T14:04:10.531196+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-06-18T14:04:10.531196+00:00'
+[2025-06-18T14:04:15.028+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-06-18T14:04:15.063+0000] {spark_submit.py:271} INFO - Could not load connection string spark_default, defaulting to yarn
+[2025-06-18T14:04:15.066+0000] {spark_submit.py:401} INFO - Spark-Submit cmd: spark-submit --master yarn --conf spark.master=spark://spark:7077 --conf spark.driver.memory=1g --conf spark.executor.memory=1g --name KafkaToBronze --verbose /opt/bitnami/spark/spark_jobs/footware/kafka_to_bronze.py
+[2025-06-18T14:04:15.129+0000] {spark_submit.py:571} INFO - /home/***/.local/lib/python3.12/site-packages/pyspark/bin/load-spark-env.sh: line 68: ps: command not found
+[2025-06-18T14:04:15.130+0000] {spark_submit.py:571} INFO - JAVA_HOME is not set
+[2025-06-18T14:04:15.131+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-06-18T14:04:15.142+0000] {taskinstance.py:2905} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/apache/spark/operators/spark_submit.py", line 174, in execute
+    self._hook.submit(self.application)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/apache/spark/hooks/spark_submit.py", line 502, in submit
+    raise AirflowException(
+airflow.exceptions.AirflowException: Cannot execute: spark-submit --master yarn --conf spark.master=spark://spark:7077 --conf spark.driver.memory=1g --conf spark.executor.memory=1g --name KafkaToBronze --verbose /opt/bitnami/spark/spark_jobs/footware/kafka_to_bronze.py. Error code is: 1.
+[2025-06-18T14:04:15.147+0000] {taskinstance.py:1206} INFO - Marking task as UP_FOR_RETRY. dag_id=lakehouse_ingest_pipeline, task_id=spark_streaming_bronze, run_id=manual__2025-06-18T14:04:10.531196+00:00, execution_date=20250618T140410, start_date=20250618T140414, end_date=20250618T140415
+[2025-06-18T14:04:15.159+0000] {standard_task_runner.py:110} ERROR - Failed to execute job 15 for task spark_streaming_bronze (Cannot execute: spark-submit --master yarn --conf spark.master=spark://spark:7077 --conf spark.driver.memory=1g --conf spark.executor.memory=1g --name KafkaToBronze --verbose /opt/bitnami/spark/spark_jobs/footware/kafka_to_bronze.py. Error code is: 1.; 357)
+[2025-06-18T14:04:15.178+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 1
+[2025-06-18T14:04:15.196+0000] {taskinstance.py:3503} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-06-18T14:04:15.198+0000] {local_task_job_runner.py:222} INFO - ::endgroup::

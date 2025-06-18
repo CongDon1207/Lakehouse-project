@@ -12,7 +12,7 @@ with DAG(
     dag_id='lakehouse_ingest_pipeline',
     default_args=default_args,
     description='Nạp dữ liệu CSV vào Kafka, chạy Spark streaming ghi Bronze',
-    schedule_interval=None,  # chỉ chạy khi trigger thủ công
+    schedule_interval=None,
     start_date=datetime(2024, 1, 1),
     catchup=False,
 ) as dag:
@@ -21,18 +21,23 @@ with DAG(
         task_id='produce_csv_to_kafka',
         bash_command=(
             "python /opt/airflow/tools/produce_csv_to_kafka.py "
-            "--bootstrap-server localhost:9094 "
+            "--bootstrap-server kafka:9092 "
             "--topic footware_sales "
             "--file /opt/airflow/data/FootWare_Sales_Dataset/FootWare_Wholesale_Sales_Dataset.csv"
         )
     )
 
+    # Chạy Spark job thông qua docker exec vào container spark
     spark_streaming = BashOperator(
         task_id='spark_streaming_bronze',
         bash_command=(
-            "spark-submit "
+            "docker exec spark "
+            "/opt/bitnami/spark/bin/spark-submit "
             "--master spark://spark:7077 "
-            "/opt/airflow/spark_jobs/streaming_example.py"
+            "--conf spark.driver.memory=1g "
+            "--conf spark.executor.memory=1g "
+            "--name KafkaToBronze "
+            "/opt/bitnami/spark/spark_jobs/footware/kafka_to_bronze.py"
         )
     )
 

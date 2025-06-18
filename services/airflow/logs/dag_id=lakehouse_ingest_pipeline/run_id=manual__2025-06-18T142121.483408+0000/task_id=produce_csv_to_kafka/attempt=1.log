@@ -1,0 +1,22 @@
+[2025-06-18T14:21:22.405+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-06-18T14:21:22.467+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: lakehouse_ingest_pipeline.produce_csv_to_kafka manual__2025-06-18T14:21:21.483408+00:00 [queued]>
+[2025-06-18T14:21:22.485+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: lakehouse_ingest_pipeline.produce_csv_to_kafka manual__2025-06-18T14:21:21.483408+00:00 [queued]>
+[2025-06-18T14:21:22.486+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 2
+[2025-06-18T14:21:22.503+0000] {taskinstance.py:2330} INFO - Executing <Task(BashOperator): produce_csv_to_kafka> on 2025-06-18 14:21:21.483408+00:00
+[2025-06-18T14:21:22.525+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61 DeprecationWarning: This process (pid=265) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-06-18T14:21:22.528+0000] {standard_task_runner.py:63} INFO - Started process 266 to run task
+[2025-06-18T14:21:22.524+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'lakehouse_ingest_pipeline', 'produce_csv_to_kafka', 'manual__2025-06-18T14:21:21.483408+00:00', '--job-id', '21', '--raw', '--subdir', 'DAGS_FOLDER/lakehouse_ingest_pipeline.py', '--cfg-path', '/tmp/tmpl5o9jdsi']
+[2025-06-18T14:21:22.533+0000] {standard_task_runner.py:91} INFO - Job 21: Subtask produce_csv_to_kafka
+[2025-06-18T14:21:22.557+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/settings.py:195 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-06-18T14:21:22.631+0000] {task_command.py:426} INFO - Running <TaskInstance: lakehouse_ingest_pipeline.produce_csv_to_kafka manual__2025-06-18T14:21:21.483408+00:00 [running]> on host 7aad3b6a01bd
+[2025-06-18T14:21:22.763+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='lakehouse_ingest_pipeline' AIRFLOW_CTX_TASK_ID='produce_csv_to_kafka' AIRFLOW_CTX_EXECUTION_DATE='2025-06-18T14:21:21.483408+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-06-18T14:21:21.483408+00:00'
+[2025-06-18T14:21:22.765+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-06-18T14:21:22.786+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2025-06-18T14:21:22.788+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', 'python /opt/***/tools/produce_csv_to_kafka.py --bootstrap-server kafka:9092 --topic footware_sales --file /opt/***/data/FootWare_Sales_Dataset/FootWare_Wholesale_Sales_Dataset.csv']
+[2025-06-18T14:21:22.798+0000] {subprocess.py:86} INFO - Output:
+[2025-06-18T14:21:24.367+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2025-06-18T14:21:24.369+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-06-18T14:21:24.407+0000] {taskinstance.py:1206} INFO - Marking task as SUCCESS. dag_id=lakehouse_ingest_pipeline, task_id=produce_csv_to_kafka, run_id=manual__2025-06-18T14:21:21.483408+00:00, execution_date=20250618T142121, start_date=20250618T142122, end_date=20250618T142124
+[2025-06-18T14:21:24.431+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 0
+[2025-06-18T14:21:24.462+0000] {taskinstance.py:3503} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-06-18T14:21:24.464+0000] {local_task_job_runner.py:222} INFO - ::endgroup::
