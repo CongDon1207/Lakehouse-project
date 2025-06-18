@@ -184,6 +184,8 @@ services:
       - ./services/airflow/dags:/opt/airflow/dags
       - ./services/airflow/plugins:/opt/airflow/plugins
       - ./services/airflow/logs:/opt/airflow/logs
+      - ./tools:/opt/airflow/tools
+      - ./data:/opt/airflow/data
     ports:
       - "8082:8080"
     networks:
@@ -204,6 +206,8 @@ services:
       - ./services/airflow/dags:/opt/airflow/dags
       - ./services/airflow/plugins:/opt/airflow/plugins
       - ./services/airflow/logs:/opt/airflow/logs
+      - ./tools:/opt/airflow/tools
+      - ./data:/opt/airflow/data
     networks:
       - lakehouse-net
     command: scheduler
