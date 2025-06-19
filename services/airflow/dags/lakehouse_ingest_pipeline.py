@@ -33,10 +33,6 @@ with DAG(
         bash_command=(
             "docker exec spark "
             "/opt/bitnami/spark/bin/spark-submit "
-            "--master spark://spark:7077 "
-            "--conf spark.driver.memory=1g "
-            "--conf spark.executor.memory=1g "
-            "--name KafkaToBronze "
             "/opt/bitnami/spark/spark_jobs/footware/kafka_to_bronze.py"
         )
     )

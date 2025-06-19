@@ -43,4 +43,4 @@ df.writeStream \
     .option("checkpointLocation", "s3a://footware/bronze/_checkpoint") \
     .outputMode("append") \
     .start() \
-    .awaitTermination()
+    .awaitTermination(timeout=10)
