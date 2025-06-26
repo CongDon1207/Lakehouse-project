@@ -1,52 +1,85 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, sum, avg, count
+from pyspark.sql.functions import col, sum as _sum, avg, count, to_date, month, year
+
 
 def main():
     """
-    Main function to run the Spark job.
-    Reads data from the Silver layer, creates aggregated tables,
-    and writes them to the Gold layer.
+    ETL job: đọc lớp Silver (Delta), tính các bảng tổng hợp cho Gold:
+    1. Doanh thu, lợi nhuận theo ngày (daily_summary)
+    2. Doanh thu, lợi nhuận theo thương hiệu (brand_performance)
+    3. Doanh thu, lợi nhuận theo đại lý (dealer_performance)
+    4. Tổng quan hàng tháng (monthly_summary)
+    Ghi ra s3a://footware/gold dưới dạng Delta partitioned by năm và tháng.
     """
-    spark = SparkSession.builder         .appName("Silver to Gold ETL for Footwear Sales")         .config("spark.hadoop.fs.s3a.endpoint", "http://minio:9000")         .config("spark.hadoop.fs.s3a.access.key", "minio")         .config("spark.hadoop.fs.s3a.secret.key", "minio123")         .config("spark.hadoop.fs.s3a.path.style.access", "true")         .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")         .getOrCreate()
+    spark = SparkSession.builder \
+        .appName("Silver to Gold ETL for Footwear Sales") \
+        .getOrCreate()
 
-    # Define paths
-    silver_path = "s3a://footware-sales/silver/sales_data"
-    gold_path_daily = "s3a://footware-sales/gold/daily_sales_summary"
-    gold_path_product = "s3a://footware-sales/gold/product_sales_summary"
+    silver_path = "s3a://footware/silver"
+    gold_path = "s3a://footware/gold"
 
-    # Read data from Silver layer
-    df_silver = spark.read.format("delta").load(silver_path)
+    # Đọc Silver
+    df = spark.read.format("delta").load(silver_path)
 
-    # --- Aggregations for Gold Layer ---
+    # Chuẩn bị cột năm, tháng
+    df = df.withColumn("year", year(col("order_date"))) \
+           .withColumn("month", month(col("order_date")))
 
-    # 1. Create Daily Sales Summary table
-    print("Creating daily sales summary...")
-    df_daily_summary = df_silver         .groupBy("order_date")         .agg(
-            sum("total_revenue").alias("total_daily_revenue"),
-            sum("quantity_sold").alias("total_daily_quantity_sold"),
-            sum("net_profit").alias("total_daily_net_profit"),
-            count("*").alias("daily_transaction_count")
-        )
+    # 1. Tổng hợp hàng ngày
+    daily_summary = df.groupBy("order_date").agg(
+        _sum("total_revenue").alias("daily_revenue"),
+        _sum("profit").alias("daily_profit"),
+        _sum("quantity_sold").alias("daily_quantity")
+    )
 
-    # Write daily summary to Gold layer
-    df_daily_summary.write         .mode("overwrite")         .format("delta")         .save(gold_path_daily)
-    print(f"Successfully wrote daily sales summary to {gold_path_daily}")
+    # 2. Hiệu suất theo thương hiệu
+    brand_performance = df.groupBy("Brand").agg(
+        _sum("total_revenue").alias("revenue"),
+        _sum("profit").alias("profit"),
+        _sum("quantity_sold").alias("quantity_sold"),
+        ( _sum("profit") / _sum("total_revenue") * 100 ).alias("profit_margin_pct")
+    )
 
-    # 2. Create Product Sales Summary table
-    print("Creating product sales summary...")
-    df_product_summary = df_silver         .groupBy("Product", "Brand")         .agg(
-            sum("total_revenue").alias("total_revenue_per_product"),
-            sum("quantity_sold").alias("total_quantity_sold_per_product"),
-            sum("net_profit").alias("total_net_profit_per_product"),
-            avg("unit_price").alias("average_unit_price")
-        )
+    # 3. Hiệu suất theo đại lý
+    dealer_performance = df.groupBy("Dealer").agg(
+        _sum("total_revenue").alias("revenue"),
+        _sum("profit").alias("profit"),
+        count("Dealer").alias("transactions"),
+        _sum("quantity_sold").alias("quantity_sold")
+    )
 
-    # Write product summary to Gold layer
-    df_product_summary.write         .mode("overwrite")         .format("delta")         .save(gold_path_product)
-    print(f"Successfully wrote product sales summary to {gold_path_product}")
+    # 4. Tổng quan hàng tháng
+    monthly_summary = df.groupBy("year", "month").agg(
+        _sum("total_revenue").alias("monthly_revenue"),
+        _sum("profit").alias("monthly_profit"),
+        _sum("quantity_sold").alias("monthly_quantity")
+    )
 
-    print("Silver to Gold ETL job completed successfully.")
+    # Ghi các bảng ra Gold
+    (daily_summary.write
+        .format("delta")
+        .mode("overwrite")
+        .partitionBy("order_date")
+        .save(f"{gold_path}/daily_summary"))
+
+    (brand_performance.write
+        .format("delta")
+        .mode("overwrite")
+        .save(f"{gold_path}/brand_performance"))
+
+    (dealer_performance.write
+        .format("delta")
+        .mode("overwrite")
+        .save(f"{gold_path}/dealer_performance"))
+
+    (monthly_summary.write
+        .format("delta")
+        .mode("overwrite")
+        .partitionBy("year", "month")
+        .save(f"{gold_path}/monthly_summary"))
+
     spark.stop()
+
 
 if __name__ == "__main__":
     main()
