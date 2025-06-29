@@ -58,6 +58,8 @@ services:
       retries: 5
     networks:
       - lakehouse-net
+    volumes:
+      - metastore-data:/var/lib/mysql
 
   hive-metastore:
     container_name: hive-metastore
@@ -71,6 +73,7 @@ services:
       - "9083:9083"
     networks:
       - lakehouse-net
+      
   
   trino:
     image: lakehouse/trino:468
@@ -217,6 +220,7 @@ services:
 volumes:
   minio-data:
   airflow-db-data:
+  metastore-data:
 
 networks:
   lakehouse-net:

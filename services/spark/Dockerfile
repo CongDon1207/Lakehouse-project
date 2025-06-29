@@ -22,6 +22,14 @@ RUN wget -O /opt/bitnami/spark/jars/spark-sql-kafka-0-10_2.12-3.5.0.jar \
     wget -O /opt/bitnami/spark/jars/commons-pool2-2.11.1.jar \
     https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/2.11.1/commons-pool2-2.11.1.jar
 
+# — Download Delta Lake & AWS S3 support libraries —
+RUN wget -O /opt/bitnami/spark/jars/delta-spark_2.12-3.2.0.jar \
+        https://repo1.maven.org/maven2/io/delta/delta-spark_2.12/3.2.0/delta-spark_2.12-3.2.0.jar && \
+    wget -O /opt/bitnami/spark/jars/hadoop-aws-3.3.6.jar \
+        https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.6/hadoop-aws-3.3.6.jar && \
+    wget -O /opt/bitnami/spark/jars/aws-java-sdk-bundle-1.12.641.jar \
+        https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.641/aws-java-sdk-bundle-1.12.641.jar
+
 # Cài thêm Python libs cho job
 RUN pip install --no-cache-dir \
         boto3==1.34.81 \
