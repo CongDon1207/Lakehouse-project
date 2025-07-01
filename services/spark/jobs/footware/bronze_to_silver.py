@@ -23,17 +23,18 @@ def main():
 
     # 2. Rename cột để dễ sử dụng
     df = (df
-        .withColumnRenamed("Unit Price (₹)", "unit_price")
-        .withColumnRenamed("Margin (%)", "margin_percentage")
-        .withColumnRenamed("Profit (₹)", "profit")
-        .withColumnRenamed("Net Profit (₹)", "net_profit")
-        .withColumnRenamed("Total Revenue (₹)", "total_revenue")
-        .withColumnRenamed("Tax (GST % )", "tax_gst_percentage")
-        .withColumnRenamed("Tax Amount (₹)", "tax_amount")
-        .withColumnRenamed("Net Tax (₹)", "net_tax")
-        .withColumnRenamed("Quantity Sold", "quantity_sold")
-        .withColumnRenamed("Stock Availability", "stock_availability")
-        .withColumnRenamed("Dealer Location", "dealer_location")
+        .withColumnRenamed("Quantity Sold",        "quantity_sold")
+        .withColumnRenamed("Unit Price (\u20b9)",  "unit_price")
+        .withColumnRenamed("Margin (%)",           "margin_percentage")
+        .withColumnRenamed("Profit (\u20b9)",      "profit")
+        .withColumnRenamed("Net Profit (\u20b9)",  "net_profit")
+        .withColumnRenamed("Total Revenue (\u20b9)","total_revenue")
+        .withColumnRenamed("Tax (GST % )",         "tax_gst_percentage")
+        .withColumnRenamed("Tax Amount (\u20b9)",  "tax_amount")
+        .withColumnRenamed("Net Tax (\u20b9)",     "net_tax")
+        .withColumnRenamed("Dealer",               "dealer")
+        .withColumnRenamed("Stock Availability",   "stock_availability")
+        .withColumnRenamed("Dealer Location",      "dealer_location")
     )
 
     # 3. Loại bỏ '%' và cast các cột percent sang Double

@@ -14,9 +14,9 @@ superset fab create-admin \
 superset init
 
 # 2. Thêm kết nối Trino (dùng đúng command & flag)
-superset set-database-uri \
-  --database-name trino_conn \
-  --uri "trino://trino@trino:8080/hive/default"
+# superset set-database-uri \
+#   --database-name trino_conn \
+#   --uri "trino://trino@trino:8080/hive/default"
 
 # 3. Start webserver
 exec superset run -h 0.0.0.0 -p 8088

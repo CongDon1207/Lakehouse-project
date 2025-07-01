@@ -55,3 +55,7 @@ except Exception as e:
     except:
         pass
     sys.exit(1)
+
+
+# Đẩy thủ công:
+#   $ python tools/produce_csv_to_kafka.py   --bootstrap-server localhost:9094  --file data/FootWare_Sales_Dataset/FootWare_Wholesale_Sales_Dataset.csv
