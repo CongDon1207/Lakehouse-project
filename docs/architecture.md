@@ -5,7 +5,6 @@ Dự án này triển khai một kiến trúc data lakehouse hiện đại để
 ## Sơ đồ kiến trúc
 
 ![image alt](https://github.com/CongDon1207/lakehouse-analytics-platform/blob/7dffd00dfb085256fe8b2dfcbd11797400a2a90f/docs/images/architecture_lakehouse.png)
-```
 
 ## Các thành phần chính
 
