@@ -4,6 +4,7 @@ Dự án này triển khai một kiến trúc data lakehouse hiện đại để
 
 
 ## Kiến trúc
+![image alt](https://github.com/CongDon1207/lakehouse-analytics-platform/blob/7dffd00dfb085256fe8b2dfcbd11797400a2a90f/docs/images/architecture_lakehouse.png)
 
 Kiến trúc lakehouse được xây dựng bằng Docker và bao gồm các thành phần sau:
 
@@ -13,7 +14,7 @@ Kiến trúc lakehouse được xây dựng bằng Docker và bao gồm các th�
 *   **Query Engine:** [Trino](https://trino.io/) (trước đây là PrestoSQL) được sử dụng làm công cụ truy vấn để thực hiện các truy vấn SQL tương tác nhanh trên dữ liệu trong lakehouse.
 *   **Orchestration (Điều phối):** [Apache Airflow](https://airflow.apache.org/) được sử dụng để điều phối đường ống dữ liệu, lập lịch và quản lý các tác vụ khác nhau.
 *   **Streaming Ingestion (Nhập dữ liệu streaming):** [Apache Kafka](https://kafka.apache.org/) được sử dụng để nhập dữ liệu thời gian thực vào lakehouse.
-*   **BI & Trực quan hóa:** [Apache Superset](https://superset.apache.org/) được sử d���ng để khám phá dữ liệu, trực quan hóa và tạo các dashboard tương tác.
+*   **BI & Trực quan hóa:** [Apache Superset](https://superset.apache.org/) được sử dụng để khám phá dữ liệu, trực quan hóa và tạo các dashboard tương tác.
 
 ### Kiến trúc Medallion
 
