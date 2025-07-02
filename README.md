@@ -1,6 +1,6 @@
 # Dự án Lakehouse
 
-Dự án này triển khai một kiến trúc data lakehouse hiện đại để xử lý và phân tích dữ liệu bán hàng giày dép. Nó tận dụng một bộ công cụ mã nguồn mở mạnh mẽ để xây dựng một đường ống dữ liệu (data pipeline) mạnh mẽ và có khả năng mở rộng, từ việc nhập dữ liệu (data ingestion) đến phân tích và trực quan hóa.
+Dự án này triển khai một kiến trúc data lakehouse hiện đại để xử lý và phân tích dữ liệu . Nó tận dụng một bộ công cụ mã nguồn mở mạnh mẽ để xây dựng một đường ống dữ liệu (data pipeline) mạnh mẽ và có khả năng mở rộng, từ việc nhập dữ liệu (data ingestion) đến phân tích và trực quan hóa.
 
 
 ## Kiến trúc
