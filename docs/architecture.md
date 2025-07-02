@@ -4,50 +4,7 @@ Dự án này triển khai một kiến trúc data lakehouse hiện đại để
 
 ## Sơ đồ kiến trúc
 
-```mermaid
-graph TD
-    subgraph "Nguồn Dữ Liệu"
-        A[CSV File]
-    end
-
-    subgraph "Ingestion & Streaming"
-        B[Python Script] --> C{Kafka Topic: footware_sales};
-    end
-
-    subgraph "Data Lake (MinIO)"
-        D[Bronze Layer<br/>(Raw Data - Parquet)]
-        E[Silver Layer<br/>(Cleaned Data - Delta)]
-        F[Gold Layer<br/>(Aggregated Data - Delta)]
-    end
-
-    subgraph "Xử Lý & Orchestration"
-        G[Airflow DAG] -- Kích hoạt --> B;
-        G -- Kích hoạt --> H[Spark Streaming Job: Kafka to Bronze];
-        G -- Kích hoạt --> I[Spark Batch Job: Bronze to Silver];
-        G -- Kích hoạt --> J[Spark Batch Job: Silver to Gold];
-    end
-
-    subgraph "Query & Visualization"
-        K[Trino] --> E;
-        K --> F;
-        L[Superset] --> K;
-    end
-
-    C --> H;
-    H --> D;
-    D --> I;
-    I --> E;
-    E --> J;
-    J --> F;
-
-    M[Hive Metastore] -- Quản lý metadata --> E;
-    M -- Quản lý metadata --> F;
-    K -- Sử dụng metadata --> M;
-
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style C fill:#f9f,stroke:#333,stroke-width:2px
-    style G fill:#ffb,stroke:#333,stroke-width:2px
-    style L fill:#bbf,stroke:#333,stroke-width:2px
+![image alt](https://github.com/CongDon1207/lakehouse-analytics-platform/blob/7dffd00dfb085256fe8b2dfcbd11797400a2a90f/docs/images/architecture_lakehouse.png)
 ```
 
 ## Các thành phần chính
