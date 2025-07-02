@@ -87,6 +87,7 @@ Khi các service đã hoạt động, bạn có thể truy cập các thành ph�
 ### Phân tích
 
 Bạn có thể sử dụng Trino để truy vấn dữ liệu trong lakehouse và Superset để tạo các dashboard và trực quan hóa.
+![image alt](https://github.com/CongDon1207/Lakehouse-project/blob/727c1e14e5abc9572d8722c2e4d9cb26239183b7/docs/images/dashboard%201.png)
 
 ## Các công cụ đã sử dụng
 
