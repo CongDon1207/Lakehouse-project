@@ -1,29 +1,7 @@
 # Dự án Lakehouse
 
-Dự án này triển khai một kiến trúc data lakehouse hiện đại để xử lý và phân tích dữ liệu bán hàng giày dép. Nó tận dụng một bộ công cụ mã nguồn mở mạnh mẽ để xây dựng một đường ống dữ liệu (data pipeline) mạnh mẽ và có khả năng mở rộng, từ việc nhập dữ liệu (data ingestion) đến phân tích và trực quan hóa.
+Dự án này triển khai một kiến trúc data lakehouse hiện đại để xử lý và phân tích dữ liệu . Nó tận dụng một bộ công cụ mã nguồn mở mạnh mẽ để xây dựng một đường ống dữ liệu (data pipeline) mạnh mẽ và có khả năng mở rộng, từ việc nhập dữ liệu (data ingestion) đến phân tích và trực quan hóa.
 
-## Bộ dữ liệu
-
-Dự án sử dụng [Bộ dữ liệu bán hàng giày dép (Footwear Sales Dataset)](https://www.kaggle.com/datasets/abdullahlahaji/footware-sales-dataset) từ Kaggle. Bộ dữ liệu này chứa dữ liệu bán buôn của một công ty giày dép, bao gồm thông tin về sản phẩm, nhà bán lẻ và các giao dịch bán hàng.
-
-### Chi tiết các cột
-
-*   **Date:** Ngày diễn ra giao dịch.
-*   **Product:** Tên sản phẩm.
-*   **Brand:** Thương hiệu của sản phẩm.
-*   **Size:** Kích thước của sản phẩm.
-*   **Quantity Sold:** Số lượng sản phẩm đã bán.
-*   **Unit Price (₹):** Đơn giá của sản phẩm (tính bằng Rupee Ấn Độ).
-*   **Margin (%):** Tỷ suất lợi nhuận gộp theo phần trăm.
-*   **Profit (₹):** Lợi nhuận gộp (tính bằng Rupee Ấn Độ).
-*   **Net Profit (₹):** Lợi nhuận ròng (tính bằng Rupee Ấn Độ).
-*   **Total Revenue (₹):** Tổng doanh thu (tính bằng Rupee Ấn Độ).
-*   **Tax (GST % ):** Thuế hàng hóa và dịch vụ (GST) theo phần trăm.
-*   **Tax Amount (₹):** Số tiền thuế (tính bằng Rupee Ấn Độ).
-*   **Net Tax (₹):** Số tiền thuế ròng (tính bằng Rupee Ấn Độ).
-*   **Dealer:** Tên của nhà bán lẻ.
-*   **Stock Availability:** Tình trạng còn hàng.
-*   **Dealer Location:** Vị trí của nhà bán lẻ.
 
 ## Kiến trúc
 
@@ -87,6 +65,7 @@ Khi các service đã hoạt động, bạn có thể truy cập các thành ph�
 ### Phân tích
 
 Bạn có thể sử dụng Trino để truy vấn dữ liệu trong lakehouse và Superset để tạo các dashboard và trực quan hóa.
+![image alt](https://github.com/CongDon1207/Lakehouse-project/blob/727c1e14e5abc9572d8722c2e4d9cb26239183b7/docs/images/dashboard%201.png)
 
 ## Các công cụ đã sử dụng
 
